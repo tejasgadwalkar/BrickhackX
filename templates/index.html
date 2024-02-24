@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Address Input with Google Maps</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Input Addresses</h1>
+    <form id="addressForm" onsubmit="return false;">
+        <input type="text" id="addressInput" placeholder="Enter Address">
+        <button onclick="addAddress()">Add Address</button>
+    </form>
+
+    <h2>Stored Addresses:</h2>
+    <ul id="addressList">
+        {% for addr in addresses %}
+            <li>{{ addr }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Google Maps</h2>
+    <div id="map"></div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 2
+            });
+
+            map.addListener('click', function(event) {
+                addMarker(event.latLng);
+            });
+        }
+
+        function addMarker(location) {
+            clearMarkers();
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            markers.push(marker);
+            document.getElementById('addressInput').value = getAddressFromLatLng(location);
+        }
+
+        function clearMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        }
+
+        function getAddressFromLatLng(latLng) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'location': latLng}, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        var address = results[0].formatted_address;
+                        document.getElementById('addressInput').value = address;
+                    }
+                }
+            });
+        }
+
+        function addAddress() {
+            var address = document.getElementById('addressInput').value;
+            var addressList = document.getElementById('addressList');
+            var listItem = document.createElement('li');
+            listItem.appendChild(document.createTextNode(address));
+            addressList.appendChild(listItem);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2vrCwPGqSKndmWSonQDy1zS3B3Lujx8I&callback=initMap" async defer></script>
+</body>
+</html>
