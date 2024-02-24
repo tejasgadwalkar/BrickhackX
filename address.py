@@ -14,6 +14,7 @@ def get_driving_time(api_key, origin, destination):
         data = response.json()
         
         if data["status"] == "OK":
+            print("data thingy is: ", data)
             driving_time = data["rows"][0]["elements"][0]["duration"]["text"]
             return driving_time
         else:
@@ -44,3 +45,15 @@ def address_exists(api_key, address):
     except Exception as e:
         print(f"An error occurred: {e}")
         return False
+    
+def main():
+	api_key = "AIzaSyBGJDglC3cgmg3graBro0l4fMJmXj-XNhg"
+
+	# Example usage:
+	addressStart = "14 Meeting House Dr, Rochester, NY 14624"
+	addressEnd = "160 Keller St, Rochester, NY 14609"
+	time = get_driving_time(api_key, addressStart, addressEnd)
+	print(time)
+    
+
+main()
