@@ -1,4 +1,5 @@
 import requests
+import json
 
 def get_driving_time(api_key, origin, destination):
     url = "https://maps.googleapis.com/maps/api/distancematrix/json"
@@ -46,14 +47,52 @@ def address_exists(api_key, address):
         print(f"An error occurred: {e}")
         return False
     
+    
+def validate_address(ad):
+    # Google Geocoding API endpoint
+    endpoint = 'https://maps.googleapis.com/maps/api/geocode/json'
+
+    # API key (you'll need to replace 'YOUR_API_KEY' with your actual Google API key)
+
+    # Parameters for the API request
+    params = {
+        'address': ad,
+        'key': api_key
+    }
+
+    # Send GET request to the Google Geocoding API
+    response = requests.get(endpoint, params=params)
+    data = response.json()
+
+    # Check if the API request was successful
+    if data['status'] == 'OK':
+        # Extract the validated address information
+        formatted_address = data['results'][0]['formatted_address']
+        location = data['results'][0]['geometry']['location']
+        latitude = location['lat']
+        longitude = location['lng']
+
+        print(f"Validated Address: {formatted_address}")
+        print(f"Latitude: {latitude}, Longitude: {longitude}")
+        return True
+    else:
+        print("Address validation failed.")
+        return False
+     
+    
 def main():
-	api_key = "AIzaSyBGJDglC3cgmg3graBro0l4fMJmXj-XNhg"
+  
+  file = json.load(open("key.json"))
+  api_key = file["key"]
 
 	# Example usage:
 	addressStart = "14 Meeting House Dr, Rochester, NY 14624"
 	addressEnd = "160 Keller St, Rochester, NY 14609"
 	time = get_driving_time(api_key, addressStart, addressEnd)
 	print(time)
-    
 
+  # Example usage:
+  address = "2 main st vestal, NY"
+  validate_address(address)
+  
 main()
