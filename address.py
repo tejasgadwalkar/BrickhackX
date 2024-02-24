@@ -88,7 +88,7 @@ def main():
 	# Example usage:
 	addressStart = "14 Meeting House Dr, Rochester, NY 14624"
 	addressEnd = "160 Keller St, Rochester, NY 14609"
-	time = get_driving_time(api_key, addressStart, addressEnd)
+	time = get_driving_time(addressStart, addressEnd)
 	print("Driving time between two locations", time)
 
 	# Example usage:
