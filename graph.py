@@ -24,8 +24,9 @@ def build_nodes(graph, addresses):
 
 def build_graph(addresses):
     graph = nx.Graph()
-    build_nodes(graph, addresses)
-
-
-
+    k = 0
+    for i in range(n):
+        for j in range(i, n):
+            graph.add_edge(i, j, weight=weights[k])
+            k += 1
     return graph
