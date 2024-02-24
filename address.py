@@ -1,6 +1,9 @@
 import requests
 import json
 
+file = json.load(open("key.json"))
+api_key = file["key"]
+
 def get_driving_time(api_key, origin, destination):
     url = "https://maps.googleapis.com/maps/api/distancematrix/json"
     params = {
@@ -81,18 +84,15 @@ def validate_address(ad):
      
     
 def main():
-  
-  file = json.load(open("key.json"))
-  api_key = file["key"]
 
 	# Example usage:
 	addressStart = "14 Meeting House Dr, Rochester, NY 14624"
 	addressEnd = "160 Keller St, Rochester, NY 14609"
 	time = get_driving_time(api_key, addressStart, addressEnd)
-	print(time)
+	print("Driving time between two locations", time)
 
-  # Example usage:
-  address = "2 main st vestal, NY"
-  validate_address(address)
+	# Example usage:
+	address = "2 main st vestal, NY"
+	validate_address(address)
   
 main()
