@@ -2,8 +2,8 @@ import json
 
 import requests
 
-file = json.load(open("Key.json"))
-api_key = "AIzaSyAvtsdthq35gsokP2rfg8zCcL2x-uXuhJA"
+file = json.load(open("key.json"))
+api_key = file["key"]
 
 
 def validate_address(ad):
