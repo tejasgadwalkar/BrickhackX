@@ -1,12 +1,31 @@
 import networkx as nx
+import address as addr
+
+def build_weighted_graph(graph: nx.Graph):
+    # nodes = graph.nodes()
+    # for name in [nodes[node]['name'] for node in nodes]:
+    #     for neighbor in graph.neighbors(graph, name):
+    #         weight = addr.get_driving_time(name, neighbor['name'])
+    #        graph.add_edge(name, neighbor, weight = weight)
+
+    nodes = graph.nodes()
+    for node in nodes:
+        neighbors = node
+
+    return graph
 
 
-def build_weighted_graph(n, weights):
-    assert len(weights) == n * (n - 1) / 2
+
+def build_nodes(graph, addresses):
+    for address in addresses:
+        graph.add_nodes(address)
+
+
+
+def build_graph(addresses):
     graph = nx.Graph()
-    k = 0
-    for i in range(n):
-        for j in range(i, n):
-            graph.add_edge(i, j, weight=weights[k])
-            k += 1
+    build_nodes(graph, addresses)
+
+
+
     return graph
