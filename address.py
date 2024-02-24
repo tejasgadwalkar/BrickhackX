@@ -4,7 +4,7 @@ import json
 file = json.load(open("key.json"))
 api_key = file["key"]
 
-def get_driving_time(api_key, origin, destination):
+def get_driving_time(origin, destination):
     url = "https://maps.googleapis.com/maps/api/distancematrix/json"
     params = {
         "key": api_key,
@@ -29,7 +29,7 @@ def get_driving_time(api_key, origin, destination):
         return None
     
 
-def address_exists(api_key, address):
+def address_exists(address):
     url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
     params = {
         "key": api_key,
