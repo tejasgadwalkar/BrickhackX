@@ -5,11 +5,15 @@ from flask import Flask, render_template, request
 import json
 
 app = Flask(__name__)
+addresses = []
 
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    if request.method == 'POST':
+        address = request.form['address']
+        addresses.append(address)
+        return render_template('index.html', addresses=addresses)
+    return render_template('index.html', addresses=addresses)
 
 
 @app.route('/locations', methods=['POST'])
@@ -21,3 +25,10 @@ def locations():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+addresses = []
+
