@@ -10,6 +10,8 @@
 
 #addressForm {
     margin-bottom: 20px; /* Add margin at the bottom of the form */
+    display: flex;
+    align-items: center;
 }
 
 input[type="text"], button {
@@ -25,14 +27,28 @@ li {
     margin-bottom: 10px; /* Add margin between list items */
 }
 
+button {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 #input_label{
-    text-align: center; /* Align the text in the center */
+    text-align: center;
     margin-top: 0;
     padding-bottom: 10px;
 }
 
 #stored_label {
-    text-align: center; /* Align the text in the center */
+    text-align: center;
     margin-top: 0;
     padding-bottom: 10px;
 }

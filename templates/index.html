@@ -3,36 +3,30 @@
 <head>
     <title>Address Input with Google Maps</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
     <div id="address-list-container">
-        <h1 id="input_label">Input Addresses</h1>
+        <h1 id="input-label">Input Addresses</h1>
         <form id="addressForm" onsubmit="return false;">
             <input type="text" id="addressInput" placeholder="Enter Address">
-            <button onclick="addAddress()">Add Address</button>
-            <button onclick="submitAddresses()">Submit</button> <!-- New submit button -->
-            <button onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
+            <button id="add-button" onclick="addAddress()">Add Address</button>
+            <button id="submit-button" onclick="submitAddresses()">Submit</button> <!-- New submit button -->
+            <button id="reset-button" onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
         </form>
-        <h2 id="stored_label">Stored Addresses</h2>
+        <h2 id="stored-label">Stored Addresses</h2>
         <ul id="addressList">
             {% for addr in addresses %}
             <li>{{ addr }} <button onclick="deleteAddress(this)">Delete</button></li>
         {% endfor %}
         </ul>
-        <h2>Starting Address:</h2>
+        <h2 id="starting-label">Starting Address:</h2>
         <select id="startingAddress">
         <!-- Options for starting addresses will be dynamically added here -->
         </select>
     </div>
 
     <div id="map-container">
-        <h2>Google Maps</h2>
+        <h2 id="map-label">Google Maps</h2>
         <div id="map"></div>
     </div>
 
