@@ -167,6 +167,7 @@ function submitAddresses() {
     }
     var pickups = []
     var counters = []
+    var listItems = document.querySelectorAll('#addressList li');
     listItems.forEach(function(listItem, index) {
         var counterInput = document.getElementById('counter_' + (index + 1));
         var checkboxInput = document.getElementById('checkbox_' + (index + 1));
