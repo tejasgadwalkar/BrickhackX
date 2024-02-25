@@ -24,7 +24,7 @@
             {% for addr in addresses %}
             <li id="address_{{ loop.index }}" data-address="{{ addr }}">{{ addr }}
                 <div id="counter-wrapper">
-                    <label for="counter_{{ loop.index }}">No:</label>
+                    <label for="counter_{{ loop.index }}">ID:</label>
                     <input type="number" id="counter_{{ loop.index }}" name="counter_{{ loop.index }}" min="1" value="1">
                 </div>
                 <div id="checkbox-wrapper">

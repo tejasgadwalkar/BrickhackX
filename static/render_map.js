@@ -165,7 +165,14 @@ function submitAddresses() {
         alert("Please select a valid starting address")
         return
     }
-
+    var pickups = []
+    var counters = []
+    listItems.forEach(function(listItem, index) {
+        var counterInput = document.getElementById('counter_' + (index + 1));
+        var checkboxInput = document.getElementById('checkbox_' + (index + 1));
+        counters.push(counterInput.value);
+        pickups.push(checkboxInput.checked);
+    });
     // Prevent the default form submission behavior
     event.preventDefault();
 
@@ -177,6 +184,8 @@ function submitAddresses() {
         },
         body: JSON.stringify({ 
             'addresses': addresses,
+            'pickupStatus': pickups,
+            'id': counters,
             'startingAddress': startingAddress
         })
     })
