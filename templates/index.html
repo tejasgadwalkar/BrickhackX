@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-<h1 id="title-label">Address Input with Google Maps</h1>
+<h1 id="title-label">Optipath Route Optimizer</h1>
     <div id="address-list-container">
         <h1 id="input-label">Input Addresses</h1>
         <form id="addressForm" onsubmit="return false;">
@@ -22,7 +22,14 @@
         <h2 id="stored-label">Stored Addresses</h2>
         <ul id="addressList">
             {% for addr in addresses %}
-            <li id="address_{{ loop.index }}" data-address="{{ addr }}">{{ addr }} <button onclick="deleteAddress(loop.index)">Delete</button></li>
+            <li id="address_{{ loop.index }}" data-address="{{ addr }}">{{ addr }}
+                <label for="counter_{{ loop.index }}">No:</label>
+                <input type="number" id="counter_{{ loop.index }}" name="counter_{{ loop.index }}" min="1" value="1"><br>
+
+                <button onclick="deleteAddress(loop.index)">Delete</button>
+                <label for="checkbox_{{ loop.index }}">Pickup?</label>
+                <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}">
+            </li>
             {% endfor %}
         </ul>
         <h2 id="starting-label">Starting Address</h2>

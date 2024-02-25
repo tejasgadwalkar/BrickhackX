@@ -11,12 +11,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #address-list-container {
-    width: 50%;
+    width: 45%;
     float: left;
 }
 
 #input-container {
     display: flex;
+    width: 100%;
     flex-direction: column; /* Arrange children vertically */
 }
 
@@ -29,7 +30,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #addressInput {
-    width: 120%;
+    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -177,6 +178,20 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+
+#addressList li input {
+    width: 20px; /* Adjust the width as needed */
+    padding: 5px; /* Add padding for spacing */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 5px; /* Add rounded corners */
+    font-size: 14px; /* Adjust the font size */
+}
+
+#addressList li input[type="checkbox"] {
+    margin-right: 5px; /* Add margin to the right for spacing */
+    transform: scale(1.5); /* Increase the size of the checkbox */
 }
 
 #input-label{
