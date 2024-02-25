@@ -140,9 +140,8 @@ function resetAddresses() {
         console.log(data);
     })
     .catch(error => console.error('Error:', error));
-
     // Clear the displayed path on the map
-    directionsDisplay.setMap(null);
+    initMap()
 }
 
 
