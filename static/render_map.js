@@ -55,7 +55,21 @@ function addAddress() {
     var index = addressList.getElementsByTagName("li").length + 1;
     listItem.id = "address_" + index;
     listItem.setAttribute('data-address', address);
-    listItem.innerHTML = address + ' <button onclick="deleteAddress(' + index + ')">Delete</button>';
+
+    var counterWrapper = document.createElement('div');
+    counterWrapper.id = "counter-wrapper";
+    counterWrapper.innerHTML = '<label for="counter_' + index + '">No:</label>' +
+                                '<input type="number" id="counter_' + index + '" name="counter_' + index + '" min="1" value="1">';
+
+    var checkboxWrapper = document.createElement('div');
+    checkboxWrapper.id = "checkbox-wrapper";
+    checkboxWrapper.innerHTML = '<label for="checkbox_' + index + '">Pickup?</label>' +
+                                 '<input type="checkbox" id="checkbox_' + index + '" name="checkbox_' + index + '">';
+
+    listItem.innerHTML = address
+    listItem.appendChild(counterWrapper);
+    listItem.appendChild(checkboxWrapper);
+    listItem.innerHTML += ' <button onclick="deleteAddress(' + index + ')">Delete</button>';
     addressList.appendChild(listItem);
     addresses.push(address); // Add address to the addresses array
 
