@@ -2,6 +2,20 @@ class Node:
     def __init__(self, name):
         self.neighbors = []
         self.name = name
+        self.status = ""
+        self.number = ""
+
+    def set_status(self, status):
+        """
+        Set the status to either "delivery" or "pickup"
+        If invalid state was passed through as status, sets status to None
+
+        For usage, first assert status is not None for node
+        """
+        if (status == "delivery" or status == "pickup"):
+            self.status = status
+        else:
+            self.status = None
 
     def get_neighbors(self):
         return self.neighbors
