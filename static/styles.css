@@ -3,10 +3,6 @@
     float: right;
 }
 
-#address-list-container {
-    width: 50%; /* Set the width to 50% of the parent container */
-    float: left; /* Float the container to the left */
-}
 
 #addressForm {
     margin-bottom: 20px; /* Add margin at the bottom of the form */
@@ -18,13 +14,15 @@ input[type="text"], button {
     margin-right: 10px; /* Add margin between input and button elements */
 }
 
-ul {
-    list-style-type: none; /* Remove default bullet points from list */
-    padding: 0; /* Remove default padding from list */
-}
-
-li {
-    margin-bottom: 10px; /* Add margin between list items */
+#addressList li {
+    margin-bottom: 10px;
+    padding: 15px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 button {
@@ -41,13 +39,25 @@ button:hover {
     background-color: #0056b3;
 }
 
-#input_label{
+#input-label{
     text-align: center;
     margin-top: 0;
     padding-bottom: 10px;
 }
 
-#stored_label {
+#title-label{
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 10px;
+}
+
+#stored-label {
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 10px;
+}
+
+#starting-label{
     text-align: center;
     margin-top: 0;
     padding-bottom: 10px;
@@ -56,6 +66,12 @@ button:hover {
 #map {
     height: 400px;
     width: 100%;
+}
+
+#map-label{
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 10px;
 }
 
 #address-list-container {
