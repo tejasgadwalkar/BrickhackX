@@ -19,7 +19,7 @@
     <h2>Stored Addresses:</h2>
     <ul id="addressList">
         {% for addr in addresses %}
-            <li>{{ addr }}</li>
+            <li>{{ addr }} <button onclick="deleteAddress(this)">Delete</button></li>
         {% endfor %}
     </ul>
 
@@ -74,10 +74,17 @@
             var address = document.getElementById('addressInput').value;
             var addressList = document.getElementById('addressList');
             var listItem = document.createElement('li');
-            listItem.appendChild(document.createTextNode(address));
+            listItem.innerHTML = address + ' <button onclick="deleteAddress(this)">Delete</button>';
             addressList.appendChild(listItem);
         }
+
+        function deleteAddress(btn) {
+            var listItem = btn.parentNode;
+            var address = listItem.textContent.trim();
+            listItem.parentNode.removeChild(listItem);
+            // Remove address from markers array if needed
+        }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2vrCwPGqSKndmWSonQDy1zS3B3Lujx8I&callback=initMap" async defer></script>
 </body>
 </html>
