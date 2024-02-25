@@ -1,10 +1,10 @@
 import address as addr
 import graph as g
 
-def build_graph(addresses):
+def build_graph(addresses, pickup, number):
 	mapGraph = g.Graph()
-	for address in addresses:
-		mapGraph.add_node(address)
+	for i in range(len(addresses)):
+		mapGraph.add_node(addresses[i], pickup[i], int(number[i]))
 	
 	for node1 in mapGraph.nodes:
 		for node2 in mapGraph.nodes:

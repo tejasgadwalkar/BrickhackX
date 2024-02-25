@@ -1,9 +1,9 @@
 class Node:
-    def __init__(self, name):
+    def __init__(self, name, pickup, number):
         self.neighbors = []
         self.name = name
-        self.status = ""
-        self.number = ""
+        self.status = pickup
+        self.number = number
 
     def set_status(self, status):
         """
@@ -12,7 +12,7 @@ class Node:
 
         For usage, first assert status is not None for node
         """
-        if (status == "delivery" or status == "pickup"):
+        if (status == False or status == True):
             self.status = status
         else:
             self.status = None

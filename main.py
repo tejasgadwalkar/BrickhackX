@@ -1,6 +1,8 @@
 import address as ad
 from flask import Flask, render_template, request, jsonify
 import graph
+import build_graph as bg
+import shortest_path as sp
 
 app = Flask(__name__)
 addresses = []
@@ -47,19 +49,27 @@ def delete_address():
 def build_path():
     data = request.json
     starting_address = data.get('startingAddress')
-    ending_address = data.get('endingAddress') #potentially none
+    # starting_address = data.get('startingAddress')
     assert(starting_address is not None)
     addresses = data.get('addresses')
+    pickup = data.get('pickupStatus')
+    number = data.get('id')
     
-    # print("addresses is: ", addresses)
+    print("addresses is: ", addresses)
+    print("pickups is: ", pickup)
+    print("numbers is: ", number)
 
-    if (ending_address == None):
-        optimized_path = graph.generate_optimal_path(addresses, starting_address)
-    else:
-        optimized_path = graph.generate_optimal_path(addresses, starting_address, ending_address)
-    # print("starting address is: ", starting_address)
-    # print("optimization is: ", optimized_path)
-    return jsonify({'path': optimized_path})
+    # Now you have both starting_address and addresses list
+    # Use them to build the path
+    builtGraph = bg.build_graph(addresses, pickup, number)
+    try:
+        optimize_path = sp.optimal_path(builtGraph, starting_address)
+    except:
+        raise Exception("ZERO_RESULTS")
+
+    print("starting address is: ", starting_address)
+    print("optimization is: ", optimize_path)
+    return jsonify({'path': optimize_path})
 
 
 @app.route('/reset_addresses', methods=['POST'])

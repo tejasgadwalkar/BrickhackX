@@ -193,7 +193,7 @@ function submitAddresses() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        displayOptimizedPath(data.path);  // Call a function to display the optimized path
+        displayOptimizedPath(data.path)// Call a function to display the optimized path 
     })
     .catch(error => console.error('Error:', error));
 }

@@ -1,6 +1,4 @@
 import nodes
-import shortest_path as sp
-import build_graph as bg
 from math import ceil
 
 class Graph:
@@ -15,14 +13,14 @@ class Graph:
         self.edges = []
 
 
-    def add_node(self, name):
+    def add_node(self, name, pickup, number):
         """
         Adds a new node to the graph with the given name.
 
         Parameters:
             name (str): The name of the node to be added.
         """
-        self.nodes.append(nodes.Node(name))
+        self.nodes.append(nodes.Node(name, pickup, number))
 
 
     def add_edge(self, name1, name2, weight):
@@ -51,7 +49,7 @@ class Graph:
         Returns:
             Node: The node object with the specified name, if it exists in the graph.
         """
-        tmp = nodes.Node(name)
+        tmp = nodes.Node(name, False, 0)
         for node in self.nodes:
             if node == tmp:
                 return node
@@ -66,8 +64,8 @@ class Graph:
             name2 (str): The name of the second node.
             weight (float): The new weight for the edge.
         """
-        node1 = nodes.Node(name1)
-        node2 = nodes.Node(name2)
+        node1 = nodes.Node(name1, False, 1)
+        node2 = nodes.Node(name2, False, 1)
         for edge in self.edges:
             if edge[0] == node1 and edge[1] == node2:
                 edge[2] = weight
@@ -87,46 +85,12 @@ class Graph:
         """
         if (name1 == name2):
             return 0
-        node1 = nodes.Node(name1)
-        node2 = nodes.Node(name2)
+        node1 = nodes.Node(name1, False, 0)
+        node2 = nodes.Node(name2, False, 0)
         for edge in self.edges:
             if edge[0] == node1 and edge[1] == node2:
                 return edge[2]
-
-
-    def generate_optimal_path(self, addresses, starting_address):
-        """
-        Generates the optimal path without end node parameter
-
-        Parameters:
-            addresses (list): List of addresses for graph construction
-            starting_address (str): String of starting address name
-
-        Returns:
-            list: optimal path to visit all nodes in graph
-        """
-        self = bg.build_graph(addresses)
-        start = nodes.Node(starting_address)
-        return sp.optimal_path(self, start, end=None)
-
-        
-    def generate_optimal_path(self, addresses, starting_address, ending_address):
-        """
-        Generates the optimal path with end node parameter
-
-        Parameters:
-            addresses (list): List of addresses for graph construction
-            starting_address (str): String of starting address name
-            ending_address (str): String of ending address name
-
-        Returns:
-            list: optimal path to visit all nodes in graph, ending at end
-        """
-        self = bg.build_graph(addresses)
-        start = nodes.Node(starting_address)
-        end = nodes.Node(ending_address)
-        return sp.optimal_path(self, start, end)
-
+            
 
     def __str__(self):
         """

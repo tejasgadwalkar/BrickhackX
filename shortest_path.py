@@ -1,4 +1,4 @@
-import graph
+from graph import Graph
 import numpy as np
 
 def permutations(array):
@@ -19,30 +19,25 @@ def path_weight(g, path):
     return g.get_weight(path[0], path[1]) + path_weight(g, path[1:])
 
 
-def optimal_path(g, start, end):
+def optimal_path(g : Graph, start):
     p = permutations(g.nodes)
-    
-    filtered = [i for i in filter(lambda x: x[0].name == start, p)]
-    if (end is not None):
-        filtered = [i for i in filtered if i[-1].name == end]
 
+    filtered = [i for i in filter(lambda x: x[0].name == start, p)]
+    
     delivery_filtered = []
-    for j in filtered:
-        pickupList = []
-        if g.get_node(j).name == "pickup":
-            pickupList.append(g.get_node(j).number)
-        else:
-            if g.get_node(j).number not in pickupList:
-                continue
-            else:
-                delivery_filtered.append(j)
+    for path in filtered:
+        if isValid(path):
+            delivery_filtered.append(path)
 
     mapped = [list(map(lambda x: x.name, i)) for i in delivery_filtered]
     path_lengths = [i for i in map(lambda x: path_weight(g, x), mapped)]
-    return mapped[np.argmin(path_lengths)]
+    if(len(path_lengths) == 0):
+        raise Exception("ZERO_ROUTES")
+    else:
+        return mapped[np.argmin(path_lengths)]
 
 
-def path_helper(g, start, n_rest):
+def path_helper(g : Graph, start, n_rest):
     """
     :param g: graph of Graph class
     :param start: starting node's name
@@ -57,7 +52,7 @@ def path_helper(g, start, n_rest):
     return shortest
 
 
-def init_path(g, start: str):
+def init_path(g : Graph, start: str):
     """
     :param g: graph of Graph class
     :param start: name of starting node
@@ -72,3 +67,16 @@ def init_path(g, start: str):
         start = next_node
         n_rest.remove(g.get_node(start))
     return path
+
+
+def isValid(path):
+    pickupList = []
+    for node in path:
+        if node.status == False:  #delivery
+            if node.number not in pickupList:
+                return False
+            pickupList.remove(node.number)
+        else:
+            pickupList.append(node.number)
+    return len(pickupList) == 0
+            
