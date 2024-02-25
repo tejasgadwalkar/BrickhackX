@@ -1,7 +1,6 @@
 import nodes
 from math import ceil
 
-
 class Graph:
     def __init__(self):
         """
@@ -125,7 +124,7 @@ class Graph:
                 length = len(node2.name)
                 weight = self.get_weight(node.name, node2.name)
                 string += str(weight)
-                string += '\t' * ceil(length / 4)
+                string += ('\t' * ceil(length/4))
             string += '\n'
         return string
     
