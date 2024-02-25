@@ -17,6 +17,9 @@ class Node:
         else:
             self.status = None
 
+    def set_order_number(self, number):
+        self.set_order_number = number
+
     def get_neighbors(self):
         return self.neighbors
 

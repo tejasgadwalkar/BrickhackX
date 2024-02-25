@@ -19,16 +19,30 @@ def path_weight(g, path):
     return g.get_weight(path[0], path[1]) + path_weight(g, path[1:])
 
 
-def optimal_path(g: graph.Graph, start):
+def optimal_path(g, start, end):
     p = permutations(g.nodes)
     
     filtered = [i for i in filter(lambda x: x[0].name == start, p)]
-    mapped = [list(map(lambda x: x.name, i)) for i in filtered]
+    if (end is not None):
+        filtered = [i for i in filtered if i[-1].name == end]
+
+    delivery_filtered = []
+    for j in filtered:
+        pickupList = []
+        if g.get_node(j).name == "pickup":
+            pickupList.append(g.get_node(j).number)
+        else:
+            if g.get_node(j).number not in pickupList:
+                continue
+            else:
+                delivery_filtered.append(j)
+
+    mapped = [list(map(lambda x: x.name, i)) for i in delivery_filtered]
     path_lengths = [i for i in map(lambda x: path_weight(g, x), mapped)]
     return mapped[np.argmin(path_lengths)]
 
 
-def path_helper(g: graph.Graph, start, n_rest):
+def path_helper(g, start, n_rest):
     """
     :param g: graph of Graph class
     :param start: starting node's name
@@ -43,7 +57,7 @@ def path_helper(g: graph.Graph, start, n_rest):
     return shortest
 
 
-def init_path(g: graph.Graph, start: str):
+def init_path(g, start: str):
     """
     :param g: graph of Graph class
     :param start: name of starting node
