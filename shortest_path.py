@@ -21,6 +21,7 @@ def path_weight(g, path):
 
 def optimal_path(g: graph.Graph, start):
     p = permutations(g.nodes)
+    
     filtered = [i for i in filter(lambda x: x[0].name == start, p)]
     mapped = [list(map(lambda x: x.name, i)) for i in filtered]
     path_lengths = [i for i in map(lambda x: path_weight(g, x), mapped)]

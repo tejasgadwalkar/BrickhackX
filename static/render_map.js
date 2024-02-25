@@ -65,36 +65,47 @@ function addAddress() {
     option.value = address;
     option.text = address;
     startingAddressSelect.add(option);
+
+    // Send the new address to the server for storage
+    fetch('/add_address', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ address: address })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
 }
+
 
 function deleteAddress(index) {
     var listItem = document.getElementById("address_" + index);
     var address = listItem.getAttribute('data-address');
+
+    // Remove from webpage
+    listItem.remove();
+
     // Send request to server to delete address
     fetch('/delete_address', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({address: address})
+        body: JSON.stringify({ address: address })
     })
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        listItem.remove(); // Remove from webpage
     })
     .catch(error => console.error('Error:', error));
-    listItem.remove(); // Remove from webpage
-
-    // Update the starting address dropdown
-    var startingAddressSelect = document.getElementById('startingAddress');
-    for (var i = 0; i < startingAddressSelect.options.length; i++) {
-        if (startingAddressSelect.options[i].value === address) {
-            startingAddressSelect.remove(i);
-            break;
-        }
-    }
 }
+
+
+
 
 function resetAddresses() {
     // Remove all addresses from the list and clear the array
@@ -106,30 +117,65 @@ function resetAddresses() {
     var startingAddressSelect = document.getElementById('startingAddress');
     startingAddressSelect.innerHTML = '';
 
+    // Send request to server to reset addresses
+    fetch('/reset_addresses', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
+
     // Clear the displayed path on the map
     directionsDisplay.setMap(null);
 }
 
+
 function submitAddresses() {
-//    clearMarkers()
     var startingAddress = document.getElementById('startingAddress').value;
+
+    fetch('/build_path', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            addresses: addresses,
+            startingAddress: startingAddress
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        displayOptimizedPath(data.path);  // Call a function to display the optimized path
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function displayOptimizedPath(optimizedPath) {
     var waypoints = [];
+
     // Add the starting address as the first waypoint
     waypoints.push({
-    location: startingAddress,
-    stopover: true
+        location: optimizedPath[0],
+        stopover: true
     });
+
     // Add intermediate addresses as waypoints
-    for (var i = 0; i < addresses.length - 1; i++) {
+    for (var i = 1; i < optimizedPath.length - 1; i++) {
         waypoints.push({
-            location: addresses[i],
+            location: optimizedPath[i],
             stopover: true
         });
     }
 
     var request = {
-        origin: startingAddress,
-        destination: addresses[addresses.length - 1],
+        origin: optimizedPath[0],
+        destination: optimizedPath[optimizedPath.length - 1],
         waypoints: waypoints,
         travelMode: 'DRIVING'
     };

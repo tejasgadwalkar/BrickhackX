@@ -19,7 +19,6 @@ def get_driving_time(origin, destination):
         data = response.json()
         
         if data["status"] == "OK":
-            # print("data thingy is: ", data)
             driving_time = data["rows"][0]["elements"][0]["duration"]["text"]
             return to_int_driving_time(driving_time)
         else:
@@ -31,33 +30,27 @@ def get_driving_time(origin, destination):
     
 def to_int_driving_time(passedTime):
     stringedTime = passedTime.split(" ")
+    integerTime = 0
 
-    print("stringedTime is: ", stringedTime)
     if (len(stringedTime) == 4):
         if (stringedTime[1] == "hours" and stringedTime[3] == "mins"):
-            integerTime = (stringedTime[0] * 60) + (stringedTime[2])
-            return int(integerTime)
+            integerTime = (int(stringedTime[0]) * 60) + int(stringedTime[2])
         elif (stringedTime[1] == "days" and stringedTime[3] == "hours"):
-            integerTime = (stringedTime[0] * 24 * 60) + (stringedTime[2] * 60)
-            return int(integerTime)
+            integerTime = (int(stringedTime[0]) * 24 * 60) + (int(stringedTime[2]) * 60)
         elif (stringedTime[1] == "days" and stringedTime[3] == "mins"):
-            integerTime = (stringedTime[0] * 24 * 60) + (stringedTime[2])
-            return int(integerTime)
+            integerTime = (int(stringedTime[0]) * 24 * 60) + int(stringedTime[2])
     elif (len(stringedTime) == 6):
-        integerTime = (stringedTime[0] * 24 * 60) + (stringedTime[2] * 60) + (stringedTime[4])
-        return int(integerTime)
+        integerTime = (int(stringedTime[0]) * 24 * 60) + (int(stringedTime[2]) * 60) + int(stringedTime[4])
     else:
         if (stringedTime[1] == "hours"):
-            integerTime = (stringedTime[0] * 60)
-            return int(integerTime)
+            integerTime = (int(stringedTime[0]) * 60)
         elif (stringedTime[1] == "days"):
-            integerTime = (stringedTime[0] * 24 * 60)
-            return int(integerTime)
+            integerTime = (int(stringedTime[0]) * 24 * 60)
         else:
-            integerTime = (stringedTime[0])
-            return int(integerTime)
+            integerTime = int(stringedTime[0])
         
-    return 0
+    return int(integerTime)
+
 
 
 #

@@ -1,6 +1,7 @@
 import address as ad
 from flask import Flask, render_template, request, jsonify
 import build_graph as bg
+import shortest_path as sp
 
 app = Flask(__name__)
 addresses = []
@@ -40,11 +41,27 @@ def delete_address():
         return jsonify({'message': 'Address not found'})
 
 
-@app.route('/build_path')
+
+@app.route('/build_path', methods=['POST'])
 def build_path():
-    mapGraph = bg.build_graph(addresses)
-    return jsonify({'message': str(mapGraph)})
+    data = request.json
+    starting_address = data.get('startingAddress')
+    addresses = data.get('addresses', [])
+    
+    # Now you have both starting_address and addresses list
+    # Use them to build the path
+    builtGraph = bg.build_graph(addresses)
+    optimized_path = sp.optimal_path(builtGraph, starting_address)
+    print("starting address is: ", starting_address)
+    print("optimization is: ", optimized_path)
+    return jsonify({'path': optimized_path})
+
+
+@app.route('/reset_addresses', methods=['POST'])
+def reset_addresses():
+    addresses.clear()
+    return jsonify({'message': 'Addresses reset successfully'})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host = "localhost", port="8123", debug=True)    
