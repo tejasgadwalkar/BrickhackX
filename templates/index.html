@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Address Input with Google Maps</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         #map {
             height: 400px;
@@ -10,28 +11,30 @@
     </style>
 </head>
 <body>
-    <h1>Input Addresses</h1>
-    <form id="addressForm" onsubmit="return false;">
-        <input type="text" id="addressInput" placeholder="Enter Address">
-        <button onclick="addAddress()">Add Address</button>
-        <button onclick="submitAddresses()">Submit</button> <!-- New submit button -->
-        <button onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
-    </form>
-
-    <h2>Stored Addresses:</h2>
-    <ul id="addressList">
-        {% for addr in addresses %}
-        <li>{{ addr }} <button onclick="deleteAddress(this)">Delete</button></li>
-    {% endfor %}
-    </ul>
-
-    <h2>Starting Address:</h2>
-    <select id="startingAddress">
+    <div id="address-list-container">
+        <h1 id="input_label">Input Addresses</h1>
+        <form id="addressForm" onsubmit="return false;">
+            <input type="text" id="addressInput" placeholder="Enter Address">
+            <button onclick="addAddress()">Add Address</button>
+            <button onclick="submitAddresses()">Submit</button> <!-- New submit button -->
+            <button onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
+        </form>
+        <h2 id="stored_label">Stored Addresses</h2>
+        <ul id="addressList">
+            {% for addr in addresses %}
+            <li>{{ addr }} <button onclick="deleteAddress(this)">Delete</button></li>
+        {% endfor %}
+        </ul>
+        <h2>Starting Address:</h2>
+        <select id="startingAddress">
         <!-- Options for starting addresses will be dynamically added here -->
-    </select>
+        </select>
+    </div>
 
-    <h2>Google Maps</h2>
-    <div id="map"></div>
+    <div id="map-container">
+        <h2>Google Maps</h2>
+        <div id="map"></div>
+    </div>
 
     <script src="{{ url_for('static', filename='render_map.js')}}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2vrCwPGqSKndmWSonQDy1zS3B3Lujx8I&callback=initMap" async defer></script>
