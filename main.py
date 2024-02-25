@@ -33,9 +33,11 @@ def get_addresses():
 @app.route('/delete_address', methods=['POST'])
 def delete_address():
     data = request.json
-    address = data['address']
+    address = data["address"]
     if address in addresses:
+        print("removed address should been: ", address)
         addresses.remove(address)
+        print("addressing from main is: ", addresses)
         return jsonify({'message': 'Address deleted successfully'})
     else:
         return jsonify({'message': 'Address not found'})
@@ -46,8 +48,11 @@ def delete_address():
 def build_path():
     data = request.json
     starting_address = data.get('startingAddress')
-    addresses = data.get('addresses', [])
+    assert(starting_address is not None)
+    addresses = data.get('addresses')
     
+    print("addresses is: ", addresses)
+
     # Now you have both starting_address and addresses list
     # Use them to build the path
     builtGraph = bg.build_graph(addresses)

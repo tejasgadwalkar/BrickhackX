@@ -22,7 +22,7 @@
         <h2 id="stored-label">Stored Addresses</h2>
         <ul id="addressList">
             {% for addr in addresses %}
-            <li id="address_{{ loop.index }}" data-address="{{ addr }}">{{ addr }} <button onclick="deleteAddress({loop, index})">Delete</button></li>
+            <li id="address_{{ loop.index }}" data-address="{{ addr }}">{{ addr }} <button onclick="deleteAddress(loop.index)">Delete</button></li>
             {% endfor %}
         </ul>
         <h2 id="starting-label">Starting Address</h2>

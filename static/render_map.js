@@ -72,7 +72,7 @@ function addAddress() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ address: address })
+        body: JSON.stringify({ "address": address })
     })
     .then(response => response.json())
     .then(data => {
@@ -88,6 +88,19 @@ function deleteAddress(index) {
 
     // Remove from webpage
     listItem.remove();
+    const tempindex = addresses.indexOf(address);
+    if (tempindex > -1) { // only splice array when item is found
+        addresses.splice(tempindex, 1); // 2nd parameter means remove one item only
+    }
+
+    // Remove from dropdown list
+    var startingAddressSelect = document.getElementById('startingAddress');
+    for (var i = 0; i < startingAddressSelect.options.length; i++) {
+        if (startingAddressSelect.options[i].value === address) {
+            startingAddressSelect.remove(i);
+            break;
+        }
+    }
 
     // Send request to server to delete address
     fetch('/delete_address', {
@@ -95,7 +108,7 @@ function deleteAddress(index) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ address: address })
+        body: JSON.stringify({ "address": address })
     })
     .then(response => response.json())
     .then(data => {
@@ -105,14 +118,12 @@ function deleteAddress(index) {
 }
 
 
-
-
 function resetAddresses() {
     // Remove all addresses from the list and clear the array
-    var addressList = document.getElementById('addressList');
+    var addressList = document.getElementById('addressList');   
     addressList.innerHTML = '';
     addresses = [];
-
+    clearMarkers()
     // Clear the starting address dropdown
     var startingAddressSelect = document.getElementById('startingAddress');
     startingAddressSelect.innerHTML = '';
@@ -137,15 +148,23 @@ function resetAddresses() {
 
 function submitAddresses() {
     var startingAddress = document.getElementById('startingAddress').value;
+    if (!(addresses.includes(startingAddress))) {
+        alert("Please select a valid starting address")
+        return
+    }
 
+    // Prevent the default form submission behavior
+    event.preventDefault();
+
+    // print("addresses is : ", addresses)
     fetch('/build_path', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
-            addresses: addresses,
-            startingAddress: startingAddress
+            'addresses': addresses,
+            'startingAddress': startingAddress
         })
     })
     .then(response => response.json())
@@ -159,14 +178,14 @@ function submitAddresses() {
 function displayOptimizedPath(optimizedPath) {
     var waypoints = [];
 
-    // Add the starting address as the first waypoint
-    waypoints.push({
-        location: optimizedPath[0],
-        stopover: true
-    });
+    // // Add the starting address as the first waypoint
+    // waypoints.push({
+    //     location: optimizedPath[0],
+    //     stopover: true
+    // });
 
     // Add intermediate addresses as waypoints
-    for (var i = 1; i < optimizedPath.length - 1; i++) {
+    for (var i = 0; i < optimizedPath.length; i++) {
         waypoints.push({
             location: optimizedPath[i],
             stopover: true
