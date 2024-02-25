@@ -72,6 +72,11 @@ def build_path():
     return jsonify({'path': optimize_path})
 
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return jsonify(error=str(e)), 500
+
+
 @app.route('/reset_addresses', methods=['POST'])
 def reset_addresses():
     addresses.clear()

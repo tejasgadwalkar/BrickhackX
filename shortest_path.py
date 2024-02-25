@@ -1,6 +1,7 @@
 from graph import Graph
 import numpy as np
 
+
 def permutations(array):
     if len(array) == 1:
         return [array]
