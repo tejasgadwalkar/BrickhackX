@@ -1,6 +1,7 @@
 import networkx as nx
 import requests as rq
 import graph
+import address as ad
 from flask import Flask, render_template, request
 import json
 
@@ -10,7 +11,8 @@ addresses = []
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        address = request.form['address']
+        address_temp = request.form['address']
+        address = ad.validate_address(address_temp)
         addresses.append(address)
         return render_template('index.html', addresses=addresses)
     return render_template('index.html', addresses=addresses)

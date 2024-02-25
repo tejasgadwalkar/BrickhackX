@@ -51,7 +51,8 @@ def get_driving_time(origin, destination):
 #         print(f"An error occurred: {e}")
 #         return False
 #
-    
+
+
 def validate_address(ad):
     # Google Geocoding API endpoint
     endpoint = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -71,26 +72,24 @@ def validate_address(ad):
         latitude = location['lat']
         longitude = location['lng']
 
-        print(f"Validated Address: {formatted_address}")
+        # print(f"Validated Address: {formatted_address}")
         # print(f"Latitude: {latitude}, Longitude: {longitude}")
-        return True
+        return formatted_address
     else:
         print("Address validation failed.")
-        return False
+        return "Address DNE"
      
     
-def main():
+if __name__ == '__main__':
 
     # Example usage:
-    addressStart = "14 Meeting House Dr, Rochester, NY 14624"
+    # addressStart = "14 Meeting House Dr, Rochester, NY 14624"
+    addressStart = "RIT one lomb drive rochester NY"
     addressEnd = "160 Keller St, Rochester, NY 14609"
     time1 = get_driving_time(addressStart, addressEnd)
     time2 = get_driving_time(addressEnd, addressStart)
 
-    validate_address(addressStart)
-    validate_address(addressEnd)
+    print(validate_address(addressStart))
+    print(validate_address(addressEnd))
     print("Optimal driving time from A to B is", time1)
     print("Optimal driving time from B to A is", time2)
-
-  
-main()
