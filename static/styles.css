@@ -3,6 +3,17 @@
     float: right;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+#address-list-container {
+    width: 50%;
+    float: left;
+}
 
 #addressForm {
     margin-bottom: 20px; /* Add margin at the bottom of the form */
@@ -10,8 +21,42 @@
     align-items: center;
 }
 
-input[type="text"], button {
-    margin-right: 10px; /* Add margin between input and button elements */
+input[type="text"],
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type="text"] {
+    background-color: #f0f0f0;
+    color: #333;
+    width: 200px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #66afe9;
+    outline: none;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+#addressList {
+    list-style-type: none;
+    padding: 0;
 }
 
 #addressList li {
@@ -23,6 +68,16 @@ input[type="text"], button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#addressList li button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button {
@@ -74,7 +129,24 @@ button:hover {
     padding-bottom: 10px;
 }
 
-#address-list-container {
-    width: 50%;
-    float: left;
+#startingAddress {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    color: #333;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#startingAddress:hover {
+    background-color: #e0e0e0;
+}
+
+#startingAddress:focus {
+    outline: none;
+    border-color: #66afe9;
 }

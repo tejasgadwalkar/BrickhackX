@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Address Input with Google Maps</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+<h1 id="title-label">Address Input with Google Maps</h1>
     <div id="address-list-container">
         <h1 id="input-label">Input Addresses</h1>
         <form id="addressForm" onsubmit="return false;">
             <input type="text" id="addressInput" placeholder="Enter Address">
-            <button id="add-button" onclick="addAddress()">Add Address</button>
-            <button id="submit-button" onclick="submitAddresses()">Submit</button> <!-- New submit button -->
-            <button id="reset-button" onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
+            <div id="input-buttons">
+                <button id="add-button" onclick="addAddress()">Add Address</button>
+                <button id="submit-button" onclick="submitAddresses()">Submit</button> <!-- New submit button -->
+                <button id="reset-button" onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
+            </div>
         </form>
         <h2 id="stored-label">Stored Addresses</h2>
         <ul id="addressList">
@@ -19,14 +21,14 @@
             <li>{{ addr }} <button onclick="deleteAddress(this)">Delete</button></li>
         {% endfor %}
         </ul>
-        <h2 id="starting-label">Starting Address:</h2>
+        <h2 id="starting-label">Starting Address</h2>
         <select id="startingAddress">
         <!-- Options for starting addresses will be dynamically added here -->
         </select>
     </div>
 
     <div id="map-container">
-        <h2 id="map-label">Google Maps</h2>
+        <h1 id="map-label">Google Maps</h1>
         <div id="map"></div>
     </div>
 
