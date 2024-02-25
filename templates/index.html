@@ -14,14 +14,19 @@
     <form id="addressForm" onsubmit="return false;">
         <input type="text" id="addressInput" placeholder="Enter Address">
         <button onclick="addAddress()">Add Address</button>
+        <button onclick="submitAddresses()">Submit</button> <!-- New submit button -->
+        <button onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
     </form>
 
     <h2>Stored Addresses:</h2>
     <ul id="addressList">
-        {% for addr in addresses %}
-            <li id="address_{{ loop.index }}" data-address="{{ addr }}"> {{ addr }} <button onclick="deleteAddress({ loop, index })">Delete</button></li>
-        {% endfor %}
+        <!-- Addresses will be listed here -->
     </ul>
+
+    <h2>Starting Address:</h2>
+    <select id="startingAddress">
+        <!-- Options for starting addresses will be dynamically added here -->
+    </select>
 
     <h2>Google Maps</h2>
     <div id="map"></div>
@@ -29,12 +34,19 @@
     <script>
         var map;
         var markers = [];
+        var addresses = []; // Array to store addresses
+        var directionsService;
+        var directionsDisplay;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 0, lng: 0},
                 zoom: 2
             });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(map);
 
             map.addListener('click', function(event) {
                 addMarker(event.latLng);
@@ -79,39 +91,86 @@
             listItem.setAttribute('data-address', address);
             listItem.innerHTML = address + ' <button onclick="deleteAddress(' + index + ')">Delete</button>';
             addressList.appendChild(listItem);
+            addresses.push(address); // Add address to the addresses array
 
-            // Send the address to the server
-            fetch('/add_address', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({address: address})
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
+            // Update the starting address dropdown
+            var startingAddressSelect = document.getElementById('startingAddress');
+            var option = document.createElement('option');
+            option.value = address;
+            option.text = address;
+            startingAddressSelect.add(option);
         }
 
         function deleteAddress(index) {
             var listItem = document.getElementById("address_" + index);
             var address = listItem.getAttribute('data-address');
+            listItem.remove(); // Remove from webpage
+            addresses.splice(addresses.indexOf(address), 1); // Remove address from the addresses array
 
-            // Send request to server to delete address
-            fetch('/delete_address', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({address: address})
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                listItem.remove(); // Remove from webpage
-            })
-            .catch(error => console.error('Error:', error));
+            // Update the starting address dropdown
+            var startingAddressSelect = document.getElementById('startingAddress');
+            for (var i = 0; i < startingAddressSelect.options.length; i++) {
+                if (startingAddressSelect.options[i].value === address) {
+                    startingAddressSelect.remove(i);
+                    break;
+                }
+            }
         }
+
+        function resetAddresses() {
+            // Remove all addresses from the list and clear the array
+            var addressList = document.getElementById('addressList');
+            addressList.innerHTML = '';
+            addresses = [];
+
+            // Clear the starting address dropdown
+            var startingAddressSelect = document.getElementById('startingAddress');
+            startingAddressSelect.innerHTML = '';
+
+            // Clear the displayed path on the map
+            directionsDisplay.setMap(null);
+        }
+
+        function submitAddresses() {
+            var startingAddress = document.getElementById('startingAddress').value;
+            // Reverse the order of addresses
+            var reversedAddresses = addresses.slice().reverse();
+            // Use addresses array and startingAddress to compute the pathway and display on the map
+            // Call Google Maps Distance Matrix API for this purpose
+            calculatePathway(startingAddress, reversedAddresses);
+        }
+
+        function calculatePathway(startingAddress, addresses) {
+    var waypoints = [];
+    // Add the starting address as the first waypoint
+    waypoints.push({
+        location: startingAddress,
+        stopover: true
+    });
+    // Add intermediate addresses as waypoints
+    for (var i = 1; i < addresses.length - 1; i++) {
+        waypoints.push({
+            location: addresses[i],
+            stopover: true
+        });
+    }
+
+    var request = {
+        origin: startingAddress,
+        destination: addresses[addresses.length - 1],
+        waypoints: waypoints,
+        travelMode: 'DRIVING'
+    };
+
+    directionsService.route(request, function(response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
+}
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2vrCwPGqSKndmWSonQDy1zS3B3Lujx8I&callback=initMap" async defer></script>
 </body>
