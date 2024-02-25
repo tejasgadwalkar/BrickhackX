@@ -20,13 +20,10 @@
 
     <h2>Stored Addresses:</h2>
     <ul id="addressList">
-        <!-- Addresses will be listed here -->
+        {% for addr in addresses %}
+            <li id="address_{{ loop.index }}" data-address="{{ addr }}"> {{ addr }} <button onclick="deleteAddress({ loop, index })">Delete</button></li>
+        {% endfor %}
     </ul>
-
-    <h2>Starting Address:</h2>
-    <select id="startingAddress">
-        <!-- Options for starting addresses will be dynamically added here -->
-    </select>
 
     <h2>Google Maps</h2>
     <div id="map"></div>
@@ -91,21 +88,45 @@
             listItem.setAttribute('data-address', address);
             listItem.innerHTML = address + ' <button onclick="deleteAddress(' + index + ')">Delete</button>';
             addressList.appendChild(listItem);
-            addresses.push(address); // Add address to the addresses array
+
+            // Send the address to the server
+            fetch('/add_address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({address: address})
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
 
             // Update the starting address dropdown
             var startingAddressSelect = document.getElementById('startingAddress');
             var option = document.createElement('option');
             option.value = address;
             option.text = address;
-            startingAddressSelect.add(option);
         }
 
         function deleteAddress(index) {
             var listItem = document.getElementById("address_" + index);
             var address = listItem.getAttribute('data-address');
+            // Send request to server to delete address
+            fetch('/delete_address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({address: address})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                listItem.remove(); // Remove from webpage
+            })
+            .catch(error => console.error('Error:', error));
+
             listItem.remove(); // Remove from webpage
-            addresses.splice(addresses.indexOf(address), 1); // Remove address from the addresses array
 
             // Update the starting address dropdown
             var startingAddressSelect = document.getElementById('startingAddress');
