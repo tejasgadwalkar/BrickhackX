@@ -21,7 +21,7 @@ def get_driving_time(origin, destination):
         if data["status"] == "OK":
             # print("data thingy is: ", data)
             driving_time = data["rows"][0]["elements"][0]["duration"]["text"]
-            return driving_time
+            return to_int_driving_time(driving_time)
         else:
             error_message = data["error_message"] if "error_message" in data else "Unknown error"
             raise Exception(f"Google Maps API error: {error_message}")
@@ -29,6 +29,37 @@ def get_driving_time(origin, destination):
         print(f"An error occurred: {e}")
         return None
     
+def to_int_driving_time(passedTime):
+    stringedTime = passedTime.split(" ")
+
+    print("stringedTime is: ", stringedTime)
+    if (len(stringedTime) == 4):
+        if (stringedTime[1] == "hours" and stringedTime[3] == "mins"):
+            integerTime = (stringedTime[0] * 60) + (stringedTime[2])
+            return int(integerTime)
+        elif (stringedTime[1] == "days" and stringedTime[3] == "hours"):
+            integerTime = (stringedTime[0] * 24 * 60) + (stringedTime[2] * 60)
+            return int(integerTime)
+        elif (stringedTime[1] == "days" and stringedTime[3] == "mins"):
+            integerTime = (stringedTime[0] * 24 * 60) + (stringedTime[2])
+            return int(integerTime)
+    elif (len(stringedTime) == 6):
+        integerTime = (stringedTime[0] * 24 * 60) + (stringedTime[2] * 60) + (stringedTime[4])
+        return int(integerTime)
+    else:
+        if (stringedTime[1] == "hours"):
+            integerTime = (stringedTime[0] * 60)
+            return int(integerTime)
+        elif (stringedTime[1] == "days"):
+            integerTime = (stringedTime[0] * 24 * 60)
+            return int(integerTime)
+        else:
+            integerTime = (stringedTime[0])
+            return int(integerTime)
+        
+    return 0
+
+
 #
 # def address_exists(address):
 #     url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"

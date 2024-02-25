@@ -42,6 +42,7 @@ import requests as rq
 import graph
 import address as ad
 from flask import Flask, render_template, request, jsonify
+import build_graph as bg
 
 app = Flask(__name__)
 addresses = []
@@ -79,6 +80,11 @@ def delete_address():
     else:
         return jsonify({'message': 'Address not found'})
 
+
+@app.route('/build_path')
+def build_path():
+    mapGraph = bg.build_graph(addresses)
+    return jsonify({'message': str(mapGraph)})
 
 if __name__ == '__main__':
     app.run(debug=True)
