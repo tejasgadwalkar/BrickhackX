@@ -111,41 +111,34 @@ function resetAddresses() {
 }
 
 function submitAddresses() {
+//    clearMarkers()
     var startingAddress = document.getElementById('startingAddress').value;
-    // Reverse the order of addresses
-    var reversedAddresses = addresses.slice().reverse();
-    // Use addresses array and startingAddress to compute the pathway and display on the map
-    // Call Google Maps Distance Matrix API for this purpose
-    calculatePathway(startingAddress, reversedAddresses);
-}
-
-function calculatePathway(startingAddress, addresses) {
-var waypoints = [];
-// Add the starting address as the first waypoint
-waypoints.push({
-location: startingAddress,
-stopover: true
-});
-// Add intermediate addresses as waypoints
-for (var i = 1; i < addresses.length - 1; i++) {
-waypoints.push({
-    location: addresses[i],
+    var waypoints = [];
+    // Add the starting address as the first waypoint
+    waypoints.push({
+    location: startingAddress,
     stopover: true
-});
-}
+    });
+    // Add intermediate addresses as waypoints
+    for (var i = 0; i < addresses.length - 1; i++) {
+        waypoints.push({
+            location: addresses[i],
+            stopover: true
+        });
+    }
 
-var request = {
-origin: startingAddress,
-destination: addresses[addresses.length - 1],
-waypoints: waypoints,
-travelMode: 'DRIVING'
-};
+    var request = {
+        origin: startingAddress,
+        destination: addresses[addresses.length - 1],
+        waypoints: waypoints,
+        travelMode: 'DRIVING'
+    };
 
-directionsService.route(request, function(response, status) {
-if (status === 'OK') {
-    directionsDisplay.setDirections(response);
-} else {
-    window.alert('Directions request failed due to ' + status);
-}
-});
+    directionsService.route(request, function(response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
 }
