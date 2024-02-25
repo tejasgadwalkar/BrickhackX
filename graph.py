@@ -7,10 +7,12 @@ class Graph:
         self.nodes = []
         self.edges = []
 
-    def add_node(self, node):
-        self.nodes.append(node)
+    def add_node(self, name):
+        self.nodes.append(nodes.Node(name))
 
-    def add_edge(self, node1, node2, weight):
+    def add_edge(self, name1, name2, weight):
+        node1 = nodes.Node(name1)
+        node2 = nodes.Node(name2)
         self.edges.append([node1, node2, weight])
 
     def get_node(self, name):
