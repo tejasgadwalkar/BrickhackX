@@ -1,6 +1,3 @@
-import networkx as nx
-import requests as rq
-import graph
 import address as ad
 from flask import Flask, render_template, request, jsonify
 import build_graph as bg
