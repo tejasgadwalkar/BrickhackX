@@ -160,10 +160,11 @@ button:hover {
     background-color: #ff4d4d;
     color: #fff;
     border: none;
-    padding: 8px 15px;
+    padding: 20px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-align: center;
 }
 
 button {
@@ -192,6 +193,38 @@ button:hover {
 #addressList li input[type="checkbox"] {
     margin-right: 5px; /* Add margin to the right for spacing */
     transform: scale(1.5); /* Increase the size of the checkbox */
+}
+
+#counter-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; /* Adjust the width as needed */
+    height: 30px; /* Set a fixed height */
+    padding: 10px; /* Add padding for spacing */
+    border-radius: 10px; /* Add rounded corners */
+    background-color: #f2f2f2; /* Add a light gray background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    font-size: 16px; /* Adjust the font size */
+    color: #333; /* Set text color */
+    position: relative; /* Position relative for absolute positioning */
+}
+
+
+/* Style for the counter input */
+#checkbox-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* Adjust the width as needed */
+    height: 30px; /* Set a fixed height */
+    padding: 10px; /* Add padding for spacing */
+    border-radius: 10px; /* Add rounded corners */
+    background-color: #f2f2f2; /* Add a light gray background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    font-size: 16px; /* Adjust the font size */
+    color: #333; /* Set text color */
+    position: relative; /* Position relative for absolute positioning */
 }
 
 #input-label{

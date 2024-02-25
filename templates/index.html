@@ -23,12 +23,15 @@
         <ul id="addressList">
             {% for addr in addresses %}
             <li id="address_{{ loop.index }}" data-address="{{ addr }}">{{ addr }}
-                <label for="counter_{{ loop.index }}">No:</label>
-                <input type="number" id="counter_{{ loop.index }}" name="counter_{{ loop.index }}" min="1" value="1"><br>
-
+                <div id="counter-wrapper">
+                    <label for="counter_{{ loop.index }}">No:</label>
+                    <input type="number" id="counter_{{ loop.index }}" name="counter_{{ loop.index }}" min="1" value="1">
+                </div>
+                <div id="checkbox-wrapper">
+                    <label for="checkbox_{{ loop.index }}">Pickup?</label>
+                    <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}">
+                </div>
                 <button onclick="deleteAddress(loop.index)">Delete</button>
-                <label for="checkbox_{{ loop.index }}">Pickup?</label>
-                <input type="checkbox" id="checkbox_{{ loop.index }}" name="checkbox_{{ loop.index }}">
             </li>
             {% endfor %}
         </ul>
