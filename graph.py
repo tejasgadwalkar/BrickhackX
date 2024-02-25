@@ -115,13 +115,13 @@ class Graph:
         indent = ceil(max_len / 4) + 1
 
         string = "\t" * indent
-        string = string + '\t'.join(map(lambda x: x.__str__(), self.nodes)) + '\n'
+        string = string + '\t'.join(map(lambda x: str(x), self.nodes)) + '\n'
 
         for node in self.nodes:
-            name = node.__str__()
+            name = str(node)
             string += name + ('\t' * (indent - len(name)//4))
             for node2 in self.nodes:
-                length = len(node2.name)
+                length = len(str(node2))
                 weight = self.get_weight(node.name, node2.name)
                 string += str(weight)
                 string += ('\t' * ceil(length/4))
