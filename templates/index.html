@@ -8,11 +8,15 @@
     <div id="address-list-container">
         <h1 id="input-label">Input Addresses</h1>
         <form id="addressForm" onsubmit="return false;">
-            <input type="text" id="addressInput" placeholder="Enter Address">
-            <div id="input-buttons">
+            <div id="input-container">
+                <div id="address-column">
+                    <input type="text" id="addressInput" placeholder="Enter Address">
+                </div>
+                <div id="input-buttons">
                 <button id="add-button" onclick="addAddress()">Add Address</button>
                 <button id="submit-button" onclick="submitAddresses()">Submit</button> <!-- New submit button -->
                 <button id="reset-button" onclick="resetAddresses()">Reset Addresses</button> <!-- New reset button -->
+                </div>
             </div>
         </form>
         <h2 id="stored-label">Stored Addresses</h2>
