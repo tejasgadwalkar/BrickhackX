@@ -19,7 +19,7 @@
     <h2>Stored Addresses:</h2>
     <ul id="addressList">
         {% for addr in addresses %}
-            <li>{{ addr }} <button onclick="deleteAddress(this)">Delete</button></li>
+            <li id="address_{{ loop.index }}" data-address="{{ addr }}"> {{ addr }} <button onclick="deleteAddress({ loop, index })">Delete</button></li>
         {% endfor %}
     </ul>
 
@@ -74,15 +74,43 @@
             var address = document.getElementById('addressInput').value;
             var addressList = document.getElementById('addressList');
             var listItem = document.createElement('li');
-            listItem.innerHTML = address + ' <button onclick="deleteAddress(this)">Delete</button>';
+            var index = addressList.getElementsByTagName("li").length + 1;
+            listItem.id = "address_" + index;
+            listItem.setAttribute('data-address', address);
+            listItem.innerHTML = address + ' <button onclick="deleteAddress(' + index + ')">Delete</button>';
             addressList.appendChild(listItem);
+
+            // Send the address to the server
+            fetch('/add_address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({address: address})
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
         }
 
-        function deleteAddress(btn) {
-            var listItem = btn.parentNode;
-            var address = listItem.textContent.trim();
-            listItem.parentNode.removeChild(listItem);
-            // Remove address from markers array if needed
+        function deleteAddress(index) {
+            var listItem = document.getElementById("address_" + index);
+            var address = listItem.getAttribute('data-address');
+
+            // Send request to server to delete address
+            fetch('/delete_address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({address: address})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                listItem.remove(); // Remove from webpage
+            })
+            .catch(error => console.error('Error:', error));
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2vrCwPGqSKndmWSonQDy1zS3B3Lujx8I&callback=initMap" async defer></script>
