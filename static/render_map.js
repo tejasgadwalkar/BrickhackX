@@ -58,7 +58,7 @@ function addAddress() {
 
     var counterWrapper = document.createElement('div');
     counterWrapper.id = "counter-wrapper";
-    counterWrapper.innerHTML = '<label for="counter_' + index + '">No:</label>' +
+    counterWrapper.innerHTML = '<label for="counter_' + index + '">ID:</label>' +
                                 '<input type="number" id="counter_' + index + '" name="counter_' + index + '" min="1" value="1">';
 
     var checkboxWrapper = document.createElement('div');
